@@ -1,6 +1,6 @@
 ---
 name: Template
-about: Contribute to Cyckle!
+about: Contribute to Chi!
 title: ''
 labels: '' 
 assignees: ''

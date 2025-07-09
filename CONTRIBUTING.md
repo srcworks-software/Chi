@@ -1,55 +1,75 @@
-# Contributing to Cyckle-ai
+# 🙌 Thank You!
 
-Thank you for considering contributing to Cyckle-ai! We welcome contributions from everyone. Please follow the guidelines below to ensure a smooth collaboration.
+Thank you for choosing to contribute to the **Chi** project! We appreciate every bug report, feature suggestion, and pull request!
 
-## How to Contribute
+This guide will help you make your contributions clean, clear, and consistent with the rest of the codebase. Please take a moment to read through it before submitting anything.
 
-1. **Fork the Repository**  
-    Fork the repository to your own GitHub account and clone it to your local machine.
+---
 
-2. **Create a Branch**  
-    Create a new branch for your feature or bug fix:
+## 🧠 Writing Code
+
+When writing code for Chi, please make sure to:
+
+- **Comment and document clearly**: Future devs will thank you. Write as if someone else will read your code.
+- **Check for bugs**: Test your code thoroughly.
+- **Keep it clean**: Remove unused variables, dead code, and TODOs.
+
+---
+
+## 📁 Project Structure
+
+Please get familiar with the general structure of the repository:
+
+```
+Chi/
+├─ .github/
+├─ src/
+│  ├─ app.py
+│  ├─ camel.py
+│  ├─ assets/
+│  │  ├─ icon.svg
+|  ├─ requirements.txt
+├─ .gitattributes
+├─ .gitignore
+├─ CODE_OF_CONDUCT.md
+├─ CONTRIBUTING.md <-- you're reading this right now!
+├─ LICENSE
+├─ README.md
+```
+
+
+If you’re adding a new file or module, place it in the appropriate directory. If you’re not sure where it goes, ask us!
+
+---
+
+## 🔧 Setting Up Your Dev Environment
+
+Here’s how to get started:
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/srcworks-software/Chi.git
+   cd chi/src
+   ```
+2. Install dependencies:
     ```bash
-    git checkout -b feature/your-feature-name
+    pip install requirements.txt
     ```
-
-3. **Make Changes**  
-    Make your changes in the new branch. Ensure your code follows the project's coding standards.
-
-4. **Write Tests**  
-    If applicable, write tests for your changes to ensure functionality.
-
-5. **Commit Changes**  
-    Commit your changes with a clear and descriptive commit message:
+3. Run it locally:
     ```bash
-    git commit -m "Add feature: your-feature-name"
+    python3 app.py
     ```
+> **Don't forget!** You need to import a ```.gguf``` model file when using the app! 
 
-6. **Push Changes**  
-    Push your branch to your forked repository:
-    ```bash
-    git push origin feature/your-feature-name
-    ```
+# 🔁 Submitting a pull request
 
-7. **Open a Pull Request**  
-    Open a pull request (PR) to the main repository. Provide a detailed description of your changes and link any relevant issues.
+Before opening a PR:
 
-## Code of Conduct
+- Make sure your branch is up to date with ```main```.
 
-Please adhere to our [Code of Conduct](CODE_OF_CONDUCT.md) to ensure a welcoming and inclusive environment.
+- Add a clear, descriptive PR title and summary.
 
-## Reporting Issues
+# 💬 Got Questions?
+Open an issue or start a discussion! We're here to help!
 
-If you encounter any issues, please check the [issue tracker](https://github.com/vaultdweller-2287/Cyckle-ai/issues) to see if it has already been reported. If not, feel free to open a new issue with detailed information.
-
-## Style Guide
-
-- Try to seperate functions and prevent code spaghetti
-- Use meaningful variable and function names.
-- Write clear and concise comments where necessary.
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the same license (MIT) as the project.
-
-Thank you for your contributions! 🚀
+Thanks again, and happy contributing! 🛠️✨

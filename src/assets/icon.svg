@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512mm"
+   height="512mm"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="icon.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showguides="true"
+     inkscape:zoom="0.23631719"
+     inkscape:cx="1453.5549"
+     inkscape:cy="897.09936"
+     inkscape:window-width="1504"
+     inkscape:window-height="935"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <defs
+     id="defs1">
+    <rect
+       x="244.32085"
+       y="466.089"
+       width="1477.2014"
+       height="898.34897"
+       id="rect7" />
+  </defs>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Layer 1">
+    <path
+       sodipodi:type="star"
+       style="fill:#162d50;stroke:#999999;stroke-width:0.264583"
+       id="path6"
+       inkscape:flatsided="true"
+       sodipodi:sides="6"
+       sodipodi:cx="510.18423"
+       sodipodi:cy="512.17322"
+       sodipodi:r1="281.98734"
+       sodipodi:r2="244.20818"
+       sodipodi:arg1="2.6211342"
+       sodipodi:arg2="3.144733"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 265.53448,652.3993 266.42001,370.41335 511.06976,230.18727 754.83399,371.94714 753.94846,653.93308 509.29871,794.15916 Z"
+       transform="matrix(0.85779416,0,0,0.88015902,-180.05465,-199.18258)" />
+    <path
+       sodipodi:type="star"
+       style="fill:#214478;stroke:#999999;stroke-width:0.264583"
+       id="path5"
+       inkscape:flatsided="true"
+       sodipodi:sides="6"
+       sodipodi:cx="0.99451113"
+       sodipodi:cy="1.9890223"
+       sodipodi:r1="283.98648"
+       sodipodi:r2="245.93951"
+       sodipodi:arg1="0.53261185"
+       sodipodi:arg2="1.0562106"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 245.64425,146.19314 -1.5650455,285.96397 -246.21478,141.75985 -243.65523,-142.21509 3.5540678,-281.98592 248.20381,-137.78181 Z"
+       transform="matrix(0.85123537,0,0,0.83723615,256.73182,240.4982)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2777px;font-family:Ubuntu-Title;-inkscape-font-specification:Ubuntu-Title;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#cccccc;stroke:#999999;stroke-width:0.264583"
+       x="382.22885"
+       y="259.70084"
+       id="text39"><tspan
+         sodipodi:role="line"
+         id="tspan39"
+         style="stroke-width:0.264583"
+         x="382.22885"
+         y="259.70084" /></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2">
+    <g
+       id="g45">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:381.495px;font-family:Ubuntu-Title;-inkscape-font-specification:Ubuntu-Title;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#666666;stroke:#999999;stroke-width:0.220093"
+         x="186.12929"
+         y="280.6311"
+         id="text43-0"
+         transform="scale(0.89452943,1.1179062)"><tspan
+           sodipodi:role="line"
+           id="tspan43-3"
+           style="fill:#666666;stroke-width:0.220093"
+           x="186.12929"
+           y="280.6311">𝜒</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:381.495px;font-family:Ubuntu-Title;-inkscape-font-specification:Ubuntu-Title;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#f9f9f9;stroke:#999999;stroke-width:0.220093"
+         x="176.60118"
+         y="273.57642"
+         id="text43"
+         transform="scale(0.89452943,1.1179062)"><tspan
+           sodipodi:role="line"
+           id="tspan43"
+           style="stroke-width:0.220093"
+           x="176.60118"
+           y="273.57642">𝜒</tspan></text>
+    </g>
+  </g>
+</svg>

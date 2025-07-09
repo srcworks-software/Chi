@@ -1,6 +1,6 @@
 ---
 name: 🐛Bug Report🐛
-about: Help us improve Cyckle!
+about: Help us improve Chi!
 title: ''
 labels: 'bug'
 assignees: ''
