@@ -2,6 +2,8 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/srcworks-software/Chi?style=for-the-badge)
 ![GitHub license](https://img.shields.io/github/license/srcworks-software/Chi?style=for-the-badge)
 
-# Chi
+# WinChi
 
-Chi is an open-source local AI chatbot that uses GTK4. We are currently under development, so please refer to ```CONTRIBUTING.md``` for details on running Chi.
+WinChi is an open-source local AI chatbot that is a fork of chi running for windows. We are currently under development, so please refer to ```CONTRIBUTING.md``` for details on running Chi.
+
+Props to my man Zane for making Chi
