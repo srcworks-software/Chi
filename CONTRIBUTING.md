@@ -60,6 +60,7 @@ Here’s how to get started:
     python3 app.py
     ```
 > **Don't forget!** You need to import a ```.gguf``` model file when using the app! 
+> **Extra tip!** Chi is optimized for LlaMA 3 chat prompts. View ```camel.py``` for further optimizations.
 
 # 🔁 Submitting a pull request
 
