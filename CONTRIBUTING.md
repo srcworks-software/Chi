@@ -24,6 +24,7 @@ Please get familiar with the general structure of the repository:
 Chi/
 ├─ .github/
 ├─ src/
+|  ├─ config.ini
 │  ├─ app.py
 │  ├─ camel.py
 │  ├─ assets/
