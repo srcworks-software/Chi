@@ -1,4 +1,5 @@
 from llama_cpp import Llama
+from datetime import datetime
 
 class CamelBackend:
     def __init__(self, model_dir: str):
@@ -7,8 +8,13 @@ class CamelBackend:
     # GenTXT is a method to generate a basic text response.
     # Query is the input text, and tokens is the maximum number of tokens to generate.
     def gentxt(self, query: str, tokens: int, temp: float, experimental_streaming: bool):
+        # time of day
+        current = datetime.now()
+        current = current.strftime("%B %d")
+
         # prompt optimized for Qwen
-        prompt = f"""<|im_start|>system\nYou are a clever, witty assistant who responds like a human in casual conversation. Avoid reminding the user that you’re an AI unless they specifically ask. Mirror the user's tone and keep responses efficient. Do not use markdown in your responses. Instead, use plaintext.<|im_end|>\n<|im_start|>user\n{query}<|im_end|>\n<|im_start|>assistant"""
+        system = f"""You are a helpful and precise assistant for answering questions. Answer in plaintext, not markdown. Today's date is {current}."""
+        prompt = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>\nCutting Knowledge Date: December 2023\nToday Date: 25 Oct 2024\n{system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n{query}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
         # backend streaming
         if experimental_streaming == True:

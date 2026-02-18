@@ -3,6 +3,7 @@ gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, GLib, Gio
 import sys
 from camel import CamelBackend as cb
+from configparser import ConfigParser as cfg
 
 class gui(Gtk.Application):
     def __init__(self):
@@ -10,9 +11,19 @@ class gui(Gtk.Application):
             application_id="org.sourceworks.app",
             flags=Gio.ApplicationFlags.NON_UNIQUE)
         GLib.set_application_name("Chi")
-        self.instance = None
+        
+        # ini parser for model
+        self.config = cfg()
+        self.config.read('config.ini')
+        mdl = self.config['settings']['mdl']
+        if mdl != "":
+            self.instance = cb(model_dir=mdl)
+        if mdl == "":
+            self.instance = None
+
+
         self.val = 768
-        self.val2 = 0.45
+        self.val2 = 0.2
         self.prefix = ""  # to store something idk
 
     def do_startup(self):
@@ -123,7 +134,7 @@ class gui(Gtk.Application):
                          margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
 
         # token selection
-        tseltext = Gtk.Label(label="Generation tokens")
+        tseltext = Gtk.Label(label=f"Generation tokens: {self.val}")
         tselscale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 1, 2048, 16)
         tselscale.set_value(768)  # default
         tselscale.set_hexpand(True)
@@ -136,9 +147,9 @@ class gui(Gtk.Application):
         tselscale.connect("value-changed", tsel_handler)
 
         # temp selection
-        temptext = Gtk.Label(label="Generation temperature")
+        temptext = Gtk.Label(label=f"Generation temperature: {self.val2}")
         tempscale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 2, 0.1)
-        tempscale.set_value(768)  # default
+        tempscale.set_value(0.2)  # default
         tempscale.set_hexpand(True)
         tempscale.set_digits(0)
 
@@ -169,6 +180,10 @@ class gui(Gtk.Application):
                 if response == Gtk.ResponseType.ACCEPT:
                     file_dir = dialog.get_file().get_path()
                     self.instance = cb(model_dir=file_dir)
+                    self.config.read('config.ini')
+                    self.config['settings']['mdl'] = file_dir
+                    with open('config.ini', 'w') as f:
+                        self.config.write(f)
                 dialog.destroy()
 
             dialog.connect("response", on_resp)
