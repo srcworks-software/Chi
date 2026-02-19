@@ -12,9 +12,9 @@ class CamelBackend:
         current = datetime.now()
         current = current.strftime("%B %d")
 
-        # prompt optimized for Qwen
-        system = f"""You are a helpful and precise assistant for answering questions. Answer in plaintext, not markdown. Today's date is {current}."""
-        prompt = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>\nCutting Knowledge Date: December 2023\nToday Date: 25 Oct 2024\n{system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n{query}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
+        # prompt optimized for LlaMA 3
+        system = f"""You are a helpful and precise assistant for answering questions. Answer in plaintext, not markdown."""
+        prompt = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>\nCutting Knowledge Date: December 2023\nToday Date: {current}\n{system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n{query}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
         # backend streaming
         if experimental_streaming == True:

@@ -4,6 +4,7 @@ from gi.repository import Gtk, GLib, Gio
 import sys
 from camel import CamelBackend as cb
 from configparser import ConfigParser as cfg
+import random
 
 class gui(Gtk.Application):
     def __init__(self):
@@ -20,7 +21,6 @@ class gui(Gtk.Application):
             self.instance = cb(model_dir=mdl)
         if mdl == "":
             self.instance = None
-
 
         self.val = 768
         self.val2 = 0.2
@@ -60,7 +60,15 @@ class gui(Gtk.Application):
                          margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
 
         label = Gtk.Label()
+        # msg random setup
+        msgs = [
+            "Ready when you are.",
+            "What's on your mind?",
+            "Ask away!",
+            "What's on the agenda today?"
+        ]
         label.set_markup('<span font_size="32768"><i>What is on your mind?</i></span>\n')
+        label.set_markup(f'<span font_size="32768"><i>{random.choice(msgs)}</i></span>\n')
         label.set_wrap(True)
         label.set_max_width_chars(50)
         label.set_selectable(True)
@@ -191,12 +199,16 @@ class gui(Gtk.Application):
 
         open_mdlfile.connect("clicked", open_mdlfile_handler)
 
+        # legal blah blah
+        lglext = Gtk.Label(label="Copyright (c) 2025-2026 Sourceworks and Zane Apatoff.\nLicensed under MIT. View full license on https://github.com/srcworks-software/Chi/blob/main/LICENSE.")
+
         boxset.append(tseltext)
         boxset.append(tselscale)
         boxset.append(temptext)
         boxset.append(tempscale)
         boxset.append(mdlfile_label)
         boxset.append(open_mdlfile)
+        boxset.append(lglext)
 
         # stack pages
         stack.add_titled(child=boxmain, name="chat", title="Chat")
