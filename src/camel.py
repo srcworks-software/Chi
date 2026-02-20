@@ -7,13 +7,16 @@ class CamelBackend:
 
     # GenTXT is a method to generate a basic text response.
     # Query is the input text, and tokens is the maximum number of tokens to generate.
-    def gentxt(self, query: str, tokens: int, temp: float, experimental_streaming: bool):
+    def gentxt(self, query: str, tokens: int, temp: float, experimental_streaming: bool, custom: str):
         # time of day
         current = datetime.now()
         current = current.strftime("%B %d")
 
         # prompt optimized for LlaMA 3
-        system = f"""You are a helpful and precise assistant for answering questions. Answer in plaintext, not markdown."""
+        if custom == None or custom == "" or custom == " ":
+            system = f"""You are a helpful and precise assistant for answering questions. Answer in plaintext, not markdown."""
+        else:
+            system = f"""{custom} Answer in plaintext, not markdown."""
         prompt = f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>\nCutting Knowledge Date: December 2023\nToday Date: {current}\n{system}<|eot_id|><|start_header_id|>user<|end_header_id|>\n{query}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""
 
         # backend streaming

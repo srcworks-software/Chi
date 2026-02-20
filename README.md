@@ -57,6 +57,10 @@ In the chat section of Chi, you may notice three buttons. These buttons append a
 - **Explain thoroughly** -> Explain this thoroughly with examples.
 - **Explain efficiently** -> Explain this efficiently and concisely.
 
+## Personality customization
+
+In the settings section of Chi, there is an entry box to change the personality. You can write instructions and press enter to save them and apply them to the model. Your customizations are saved in ```config.ini``` so there is no worry regarding loss of settings.
+
 # Want to contribute?
 
 Read ```CONTRIBUTING.md``` for information regarding contribution. Any issues can go into the 'issues' section of the repository. 

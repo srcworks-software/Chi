@@ -22,9 +22,16 @@ class gui(Gtk.Application):
         if mdl == "":
             self.instance = None
 
+        prompt = self.config['settings']['prompt']
+        if prompt != "":
+            self.prompt = prompt
+        else:
+            self.prompt = None
+            
         self.val = 768
         self.val2 = 0.2
         self.prefix = ""  # to store something idk
+        self.prompt = None
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
@@ -115,7 +122,7 @@ class gui(Gtk.Application):
                 label.set_text("Please load a model first in the Settings tab.")
                 return
 
-            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.val2, experimental_streaming=True)
+            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.val2, experimental_streaming=True, custom=self.prompt)
             stream_buffer = []
 
             def stream_gen():
@@ -202,10 +209,25 @@ class gui(Gtk.Application):
         # legal blah blah
         lglext = Gtk.Label(label="Copyright (c) 2025-2026 Sourceworks and Zane Apatoff.\nLicensed under MIT. View full license on https://github.com/srcworks-software/Chi/blob/main/LICENSE.")
 
+        ptext = Gtk.Label(label="Personality customization (optional)")
+        entryp = Gtk.Entry()
+        entryp.set_placeholder_text("Enter customization here")
+        entryp.set_hexpand(True)
+
+        def custom_handler(entryp):
+            self.prompt = entryp.get_text().strip()
+            self.config.read('config.ini')
+            self.config['settings']['prompt'] = self.prompt
+            with open('config.ini', 'w') as f:
+                self.config.write(f)
+
+        entryp.connect("activate", custom_handler)
         boxset.append(tseltext)
         boxset.append(tselscale)
         boxset.append(temptext)
         boxset.append(tempscale)
+        boxset.append(ptext)
+        boxset.append(entryp)
         boxset.append(mdlfile_label)
         boxset.append(open_mdlfile)
         boxset.append(lglext)
