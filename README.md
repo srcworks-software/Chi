@@ -24,10 +24,24 @@ python3 app.py
 
 ## Dependencies
 
-To install required dependencies on Debian, paste in the following command:
+To install required dependencies paste the command that corresponds to your distro of choice.
+
+### Debian
 
 ```bash
-sudo apt update && sudo apt install python3-full
+sudo apt update && sudo apt install python3-full -y
+```
+
+### Fedora
+
+```bash
+sudo dnf install -y python3
+```
+
+### Arch
+
+```bash
+sudo pacman -S --noconfirm python
 ```
 
 # Features
