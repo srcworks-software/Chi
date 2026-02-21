@@ -64,3 +64,7 @@ In the settings section of Chi, there is an entry box to change the personality.
 # Want to contribute?
 
 Read ```CONTRIBUTING.md``` for information regarding contribution. Any issues can go into the 'issues' section of the repository. 
+
+# License
+
+This project is licensed under the MIT License. See the ```LICENSE``` file for details.

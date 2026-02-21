@@ -1,3 +1,7 @@
+# Copyright (c) 2025-2026 Zane Apatoff and Sourceworks. 
+# Licensed under the MIT License.
+# See LICENSE file in the project root for full license text.
+
 import gi
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, GLib, Gio
@@ -27,6 +31,24 @@ class gui(Gtk.Application):
             self.prompt = prompt
         else:
             self.prompt = None
+
+        temp = self.config['settings']['temp']
+        if temp != "":
+            self.temp = float(temp)
+        else:
+            self.temp = 0.2
+
+        tokens = self.config['settings']['tokens']
+        if tokens != "":
+            self.val = int(tokens)
+        else:
+            self.val = 768
+
+        mdl = self.config['settings']['mdl']
+        if mdl != "":
+            self.instance = cb(model_dir=mdl)
+        if mdl == "":
+            self.instance = None
             
         self.val = 768
         self.val2 = 0.2
@@ -158,6 +180,10 @@ class gui(Gtk.Application):
         def tsel_handler(scale):
             self.val = int(scale.get_value())
             tseltext.set_text(f"Generation tokens: {self.val}")
+            self.config.read('config.ini')
+            self.config['settings']['tokens'] = str(self.val)
+            with open('config.ini', 'w') as f:
+                self.config.write(f)
 
         tselscale.connect("value-changed", tsel_handler)
 
@@ -171,6 +197,10 @@ class gui(Gtk.Application):
         def temp_handler(scale):
             self.temp = round(float(scale.get_value()), 1)
             temptext.set_text(f"Generation temperature: {self.temp}")
+            self.config.read('config.ini')
+            self.config['settings']['temp'] = str(self.temp)
+            with open('config.ini', 'w') as f:
+                self.config.write(f)
 
         tempscale.connect("value-changed", temp_handler)
 
