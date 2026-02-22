@@ -51,7 +51,6 @@ class gui(Gtk.Application):
             self.instance = None
             
         self.val = 768
-        self.val2 = 0.2
         self.prefix = ""  # Stores the quick action prompt template prefix
         self.prompt = None
 
