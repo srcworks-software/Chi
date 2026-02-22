@@ -3,45 +3,51 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/srcworks-software/Chi?style=for-the-badge)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/srcworks-software/Chi?style=for-the-badge)
 ![GitHub license](https://img.shields.io/github/license/srcworks-software/Chi?style=for-the-badge)
+[![PyPI status](https://img.shields.io/pypi/status/ansicolortags.svg?style=for-the-badge)](https://pypi.python.org/project/chi-ai/)
 
-# Install
+#  Install
 
-> For key details, please refer to ```CONTRIBUTING.md```.
+## 1. Install system dependencies
 
-To install Chi, simply paste in this command:
+Chi uses GTK4 for its interface. These cannot be installed via pip and must come from your system package manager.
 
+**Debian / Ubuntu**
 ```bash
-git clone https://github.com/srcworks-software/Chi.git
-cd chi/src
-pip install requirements.txt
+sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-4.0 libgtk-4-1
 ```
 
-Then, run it using
-
+**Fedora**
 ```bash
-python3 app.py
+sudo dnf install python3-gobject gtk4
 ```
 
-## Dependencies
-
-To install required dependencies paste the command that corresponds to your distro of choice.
-
-### Debian
-
+**Arch**
 ```bash
-sudo apt update && sudo apt install python3-full -y
+sudo pacman -S python-gobject gtk4
 ```
 
-### Fedora
+## 2. Install Chi
+
+It is recommended to use `pipx` to install Chi, as it keeps Chi and its dependencies isolated from your system Python.
 
 ```bash
-sudo dnf install -y python3
+pipx install chi-ai
 ```
 
-### Arch
+Don't have pipx? Install it first:
+```bash
+pip install pipx
+```
+
+Or if you'd prefer plain pip:
+```bash
+pip install chi-ai
+```
+
+## 3. Run
 
 ```bash
-sudo pacman -S --noconfirm python
+chi-ai
 ```
 
 # Features

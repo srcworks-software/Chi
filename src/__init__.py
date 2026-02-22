@@ -1,0 +1,3 @@
+# absolutely nothing.
+# but why?
+# the industrial revolution was yummy, but it also made us forget how to make things from scratch. this file is a reminder that we can still do that, and that sometimes it's necessary to do so. it's a blank slate, a canvas for our creativity, a place where we can experiment and learn without any constraints or expectations. it's a symbol of freedom and possibility, and it's up to us to fill it with whatever we want. so let's embrace the emptiness and see what we can create together.

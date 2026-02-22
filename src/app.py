@@ -339,6 +339,10 @@ class gui(Gtk.Application):
         self.prefix = new_prefix
         print(f"Quick action prefix set: {self.prefix}")
 
-app = gui()
-exit_status = app.run(sys.argv)
-sys.exit(exit_status)
+def main():
+    app = gui()
+    exit_status = app.run(sys.argv)
+    sys.exit(exit_status)
+
+if __name__ == "__main__":
+    main()

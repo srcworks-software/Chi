@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chi-ai"
+version = "0.6.2"
+description = "An open-source, local AI chatbot built with GTK4"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Zane Apatoff", email = "zane.apatoff@gmail.com" },
+]
+keywords = ["ai", "chatbot", "gtk4", "llama", "local", "gguf"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Environment :: X11 Applications :: GTK",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Operating System :: POSIX :: Linux",
+]
+dependencies = [
+    "llama-cpp-python",
+    "psutil",
+    # pygobject (GTK4 bindings) is intentionally omitted here.
+    # pip's pygobject needs system GTK4 headers to compile.
+    # Users must install it via their system package manager.
+    # See README for per-distro instructions.
+]
+
+[project.urls]
+Homepage = "https://github.com/srcworks-software/Chi"
+Repository = "https://github.com/srcworks-software/Chi"
+Issues = "https://github.com/srcworks-software/Chi/issues"
+
+[project.scripts]
+# This is what puts `chi` on the user's PATH
+chi-ai = "chi.app:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["assets/icon.svg"]
