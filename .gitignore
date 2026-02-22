@@ -8,3 +8,6 @@ pip-log.txt
 *.gguf
 *.whl
 wheelhouse/
+dist/
+build/
+src/app.spec

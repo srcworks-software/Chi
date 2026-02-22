@@ -87,6 +87,7 @@ class gui(Gtk.Application):
         # chat page
         boxmain = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10,
                          margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
+        boxmain.add_css_class("card")
 
         label = Gtk.Label()
         # msg random setup
@@ -117,6 +118,7 @@ class gui(Gtk.Application):
         # quick action box
         qactionbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         qactionbox.set_hexpand(True)
+        qactionbox.add_css_class("linked")
 
         qaction_eli5 = Gtk.Button(label="Explain like I'm 5", hexpand=True)
         qaction_deep = Gtk.Button(label="Explain thoroughly", hexpand=True)
@@ -133,16 +135,16 @@ class gui(Gtk.Application):
 
         # handle entry activate (pressing Enter)
         def handler(entry):
-            text = entry.get_text().strip()
-            if text == "":
+            text = entry.get_text()
+            if text.strip() == "":
                 return
-            if text.lower() == "quit":
-                sys.exit(0)
             prompt_text = f"{self.prefix} {text}" if self.prefix else text
-
             if not self.instance:
                 label.set_text("Please load a model first in the Settings tab.")
+                label.add_css_class("error")
                 return
+            
+            label.remove_css_class("error")
 
             gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.val2, experimental_streaming=True, custom=self.prompt)
             stream_buffer = []
@@ -169,6 +171,12 @@ class gui(Gtk.Application):
         # settings page
         boxset = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10,
                          margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
+
+        # slider box
+        slbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        slbox.set_hexpand(True)
+        slbox.add_css_class("linked")
+        slbox.add_css_class("card")
 
         # token selection
         tseltext = Gtk.Label(label=f"Generation tokens: {self.val}")
@@ -204,9 +212,18 @@ class gui(Gtk.Application):
 
         tempscale.connect("value-changed", temp_handler)
 
+        # model changer box
+        mdlbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        mdlbox.set_hexpand(True)
+        mdlbox.add_css_class("linked")
+        mdlbox.add_css_class("card")        
+
         # model changer
         mdlfile_label = Gtk.Label(label="Change your model")
+        mdlfile_label.set_hexpand(True)
         open_mdlfile = Gtk.Button(label="Open file")
+        open_mdlfile.set_hexpand(True)
+        open_mdlfile.add_css_class("suggested-action")
 
         def open_mdlfile_handler(button):
             dialog = Gtk.FileChooserNative.new(
@@ -237,9 +254,18 @@ class gui(Gtk.Application):
         open_mdlfile.connect("clicked", open_mdlfile_handler)
 
         # legal blah blah
-        lglext = Gtk.Label(label="Copyright (c) 2025-2026 Sourceworks and Zane Apatoff.\nLicensed under MIT. View full license on https://github.com/srcworks-software/Chi/blob/main/LICENSE.")
+        lglext = Gtk.Label(label="Copyright (c) 2025-2026 Sourceworks and Zane Apatoff. Licensed under MIT.")
+        lglext.add_css_class("dim-label")
 
+        # prompt box
+        pbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        pbox.set_hexpand(True)
+        pbox.add_css_class("linked")
+        pbox.add_css_class("card")
+
+        # prompt customization
         ptext = Gtk.Label(label="Personality customization (optional)")
+        ptext.set_hexpand(True)
         entryp = Gtk.Entry()
         entryp.set_placeholder_text("Enter customization here")
         entryp.set_hexpand(True)
@@ -250,16 +276,51 @@ class gui(Gtk.Application):
             self.config['settings']['prompt'] = self.prompt
             with open('config.ini', 'w') as f:
                 self.config.write(f)
+        
+        # delete box
+        delbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        delbox.set_hexpand(True)
+        delbox.add_css_class("linked")
+        delbox.add_css_class("card")
 
+        # delete all configs
+        delcfgtxt = Gtk.Label(label="Reset all settings to default")
+        delcfgtxt.set_hexpand(True)
+        delcfg = Gtk.Button(label="Reset")
+        delcfg.set_hexpand(True)
+        delcfg.add_css_class("destructive-action")
+
+        def del_handler(button):
+            self.config['settings']['mdl'] = ""
+            self.config['settings']['prompt'] = ""
+            self.config['settings']['temp'] = "0.2"
+            self.config['settings']['tokens'] = "768"
+            with open('config.ini', 'w') as f:
+                self.config.write(f)
+            self.instance = None
+            self.prompt = None
+            self.temp = 0.2
+            self.val = 768
+            entryp.set_text("")
+            tselscale.set_value(768)
+            tempscale.set_value(0.2)
+
+        delcfg.connect("clicked", del_handler)
         entryp.connect("activate", custom_handler)
-        boxset.append(tseltext)
-        boxset.append(tselscale)
-        boxset.append(temptext)
-        boxset.append(tempscale)
-        boxset.append(ptext)
-        boxset.append(entryp)
-        boxset.append(mdlfile_label)
-        boxset.append(open_mdlfile)
+        slbox.append(tseltext)
+        slbox.append(tselscale)
+        slbox.append(temptext)
+        slbox.append(tempscale)
+        mdlbox.append(mdlfile_label)
+        mdlbox.append(open_mdlfile)
+        pbox.append(ptext)
+        pbox.append(entryp)
+        delbox.append(delcfgtxt)
+        delbox.append(delcfg)
+        boxset.append(slbox)
+        boxset.append(mdlbox)
+        boxset.append(pbox)
+        boxset.append(delbox)
         boxset.append(lglext)
 
         # stack pages
