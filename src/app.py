@@ -52,7 +52,7 @@ class gui(Gtk.Application):
             
         self.val = 768
         self.val2 = 0.2
-        self.prefix = ""  # to store something idk
+        self.prefix = ""  # Stores the quick action prompt template prefix
         self.prompt = None
 
     def do_startup(self):
