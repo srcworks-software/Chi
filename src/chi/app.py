@@ -44,15 +44,9 @@ class gui(Gtk.Application):
         else:
             self.val = 768
 
-        mdl = self.config['settings']['mdl']
-        if mdl != "":
-            self.instance = cb(model_dir=mdl)
-        if mdl == "":
-            self.instance = None
             
         self.val = 768
-        self.val2 = 0.2
-        self.prefix = ""  # to store something idk
+        self.prefix = ""  # Stores the quick action prompt template prefix
         self.prompt = None
 
     def do_startup(self):
