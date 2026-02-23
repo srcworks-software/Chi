@@ -35,5 +35,5 @@ class CamelBackend:
                 token = chunk['choices'][0]['text']
                 yield token
         else:
-            response = self.llm(prompt=prompt, max_tokens=tokens, repeat_penalty=1.28, temperature=temp, stream=False, stop="<|im_end|>")
+            response = self.llm(prompt=prompt, max_tokens=tokens, repeat_penalty=1.28, temperature=temp, stream=False, stop=["<|im_end|>"])
             return response['choices'][0]['text']
