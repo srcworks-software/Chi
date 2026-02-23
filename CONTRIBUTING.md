@@ -24,12 +24,13 @@ Please get familiar with the general structure of the repository:
 Chi/
 ├─ .github/
 ├─ src/
-|  ├─ config.ini
-│  ├─ app.py
-│  ├─ camel.py
-│  ├─ assets/
-│  │  ├─ icon.svg
-|  ├─ requirements.txt
+|  ├─ chi/
+|     ├─ config.ini
+│     ├─ app.py
+│     ├─ camel.py
+│     ├─ assets/
+│     │  ├─ icon.svg
+│     ├─ requirements.txt
 ├─ .gitattributes
 ├─ .gitignore
 ├─ CODE_OF_CONDUCT.md
@@ -50,7 +51,7 @@ Here’s how to get started:
 1. Clone the repo:
    ```bash
    git clone https://github.com/srcworks-software/Chi.git
-   cd chi/src/chi
+   cd Chi/src/chi
    ```
 2. Install dependencies:
     ```bash
