@@ -140,7 +140,7 @@ class gui(Gtk.Application):
             
             label.remove_css_class("error")
 
-            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.val2, experimental_streaming=True, custom=self.prompt)
+            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt)
             stream_buffer = []
 
             def stream_gen():
