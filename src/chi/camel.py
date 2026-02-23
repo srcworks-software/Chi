@@ -23,7 +23,7 @@ class CamelBackend:
         current = current.strftime("%B %d")
 
         # prompt optimized for LlaMA 3
-        if custom == None or custom == "" or custom == " ":
+        if not custom or (isinstance(custom, str) and custom.isspace()):
             system = f"""You are a helpful and precise assistant for answering questions. Answer in plaintext, not markdown."""
         else:
             system = f"""{custom} Answer in plaintext, not markdown."""
@@ -35,5 +35,5 @@ class CamelBackend:
                 token = chunk['choices'][0]['text']
                 yield token
         else:
-            response = self.llm(prompt=prompt, max_tokens=tokens, repeat_penalty=1.28, temperature=temp, stream=False, stop="<|im_end|>")
+            response = self.llm(prompt=prompt, max_tokens=tokens, repeat_penalty=1.28, temperature=temp, stream=False, stop=["<|im_end|>"])
             return response['choices'][0]['text']
