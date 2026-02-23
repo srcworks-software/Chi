@@ -50,7 +50,7 @@ Here’s how to get started:
 1. Clone the repo:
    ```bash
    git clone https://github.com/srcworks-software/Chi.git
-   cd chi/src
+   cd chi/src/chi
    ```
 2. Install dependencies:
     ```bash

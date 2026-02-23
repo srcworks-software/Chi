@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chi-ai"
-version = "0.6.2"
+version = "0.6.2.1"
 description = "An open-source, local AI chatbot built with GTK4"
 readme = "README.md"
 license = { file = "LICENSE" }
