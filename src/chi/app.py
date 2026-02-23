@@ -158,7 +158,6 @@ class gui(Gtk.Application):
 
         entry.connect("activate", handler)
         boxmain.append(scroll)
-        boxmain.append(label)
         boxmain.append(entry)
         boxmain.append(qactionbox)
 
