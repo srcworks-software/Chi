@@ -91,7 +91,6 @@ class gui(Gtk.Application):
             "Ask away!",
             "What's on the agenda today?"
         ]
-        label.set_markup('<span font_size="32768"><i>What is on your mind?</i></span>\n')
         label.set_markup(f'<span font_size="32768"><i>{random.choice(msgs)}</i></span>\n')
         label.set_wrap(True)
         label.set_max_width_chars(50)
