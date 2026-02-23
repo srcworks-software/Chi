@@ -23,7 +23,7 @@ class CamelBackend:
         current = current.strftime("%B %d")
 
         # prompt optimized for LlaMA 3
-        if custom == None or custom == "" or custom == " ":
+        if not custom or (isinstance(custom, str) and custom.isspace()):
             system = f"""You are a helpful and precise assistant for answering questions. Answer in plaintext, not markdown."""
         else:
             system = f"""{custom} Answer in plaintext, not markdown."""
