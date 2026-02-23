@@ -17,6 +17,11 @@ class gui(Gtk.Application):
             flags=Gio.ApplicationFlags.NON_UNIQUE)
         GLib.set_application_name("Chi")
         
+        self.val = 768  # default token count
+        self.temp = 0.2
+        self.prompt = None 
+        self.instance = None
+
         # ini parser for model
         self.config = cfg()
         self.config.read('config.ini')
@@ -185,7 +190,7 @@ class gui(Gtk.Application):
         tselscale.connect("value-changed", tsel_handler)
 
         # temp selection
-        temptext = Gtk.Label(label=f"Generation temperature: {self.val2}")
+        temptext = Gtk.Label(label=f"Generation temperature: {self.temp}")
         tempscale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 2, 0.1)
         tempscale.set_value(0.2)  # default
         tempscale.set_hexpand(True)
