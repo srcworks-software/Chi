@@ -51,7 +51,7 @@ class gui(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
-    global label
+
     def do_activate(self):
         window = Gtk.ApplicationWindow(application=self)
         window.set_default_size(800, 600)
