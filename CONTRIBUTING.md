@@ -29,7 +29,7 @@ Chi/
 │  ├─ camel.py
 │  ├─ assets/
 │  │  ├─ icon.svg
-|  ├─ requirements.txt
+│  ├─ requirements.txt
 ├─ .gitattributes
 ├─ .gitignore
 ├─ CODE_OF_CONDUCT.md
