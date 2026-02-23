@@ -44,14 +44,11 @@ class gui(Gtk.Application):
         else:
             self.val = 768
 
-            
-        self.val = 768
         self.prefix = ""  # Stores the quick action prompt template prefix
-        self.prompt = None
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
-    global label
+
     def do_activate(self):
         window = Gtk.ApplicationWindow(application=self)
         window.set_default_size(800, 600)
@@ -91,7 +88,6 @@ class gui(Gtk.Application):
             "Ask away!",
             "What's on the agenda today?"
         ]
-        label.set_markup('<span font_size="32768"><i>What is on your mind?</i></span>\n')
         label.set_markup(f'<span font_size="32768"><i>{random.choice(msgs)}</i></span>\n')
         label.set_wrap(True)
         label.set_max_width_chars(50)
@@ -140,7 +136,7 @@ class gui(Gtk.Application):
             
             label.remove_css_class("error")
 
-            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.val2, experimental_streaming=True, custom=self.prompt)
+            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt)
             stream_buffer = []
 
             def stream_gen():
@@ -158,7 +154,6 @@ class gui(Gtk.Application):
 
         entry.connect("activate", handler)
         boxmain.append(scroll)
-        boxmain.append(label)
         boxmain.append(entry)
         boxmain.append(qactionbox)
 
