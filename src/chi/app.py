@@ -4,7 +4,7 @@
 
 import gi
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk, GLib, Gio
+from gi.repository import Gtk, GLib, Gio, Gdk
 import sys
 from camel import CamelBackend as cb
 from configparser import ConfigParser as cfg
@@ -21,6 +21,7 @@ class gui(Gtk.Application):
         self.temp = 0.2
         self.prompt = None 
         self.instance = None
+        self.file = None
 
         # ini parser for model
         self.config = cfg()
@@ -91,7 +92,9 @@ class gui(Gtk.Application):
             "Ready when you are.",
             "What's on your mind?",
             "Ask away!",
-            "What's on the agenda today?"
+            "What's on the agenda today?",
+            "Fulfill your curiousity!",
+            "Shall we chat or shall we code?"
         ]
         label.set_markup(f'<span font_size="32768"><i>{random.choice(msgs)}</i></span>\n')
         label.set_wrap(True)
@@ -141,7 +144,7 @@ class gui(Gtk.Application):
             
             label.remove_css_class("error")
 
-            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt)
+            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt, md=False)
             stream_buffer = []
 
             def stream_gen():
@@ -161,6 +164,124 @@ class gui(Gtk.Application):
         boxmain.append(scroll)
         boxmain.append(entry)
         boxmain.append(qactionbox)
+
+        # coding page
+        boxcode = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=10,
+                            margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
+        
+        outputpanel = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        outputpanel.set_vexpand(True)
+        outputpanel.set_hexpand(True)
+        outputpanel.add_css_class("card")
+
+        outbuttons = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        outbuttons.set_hexpand(True)
+        outbuttons.add_css_class("linked")
+
+        outdownload = Gtk.Button(label="Download File")
+        outdownload.set_hexpand(True)
+        outdownload.add_css_class("suggested-action")
+        outbuttons.append(outdownload)
+
+        outlabel = Gtk.Label()
+        outlabel.set_markup(f'<span font_size="32768"><i>Files will appear here</i></span>\n')
+        outlabel.set_wrap(True)
+        outlabel.set_max_width_chars(50)
+        outlabel.set_selectable(True)
+        outlabel.set_hexpand(True)
+        outlabel.set_vexpand(True)
+
+        outscroll = Gtk.ScrolledWindow()
+        outscroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        outscroll.set_child(outlabel)
+        outscroll.set_vexpand(True)
+        outscroll.set_hexpand(True)
+
+        outputpanel.append(outbuttons)
+        outputpanel.append(outscroll)
+
+        inputpanel = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        inputpanel.set_vexpand(True)
+        inputpanel.set_hexpand(True)
+        inputpanel.add_css_class("card")
+
+        inentry = Gtk.Entry()
+        inentry.set_placeholder_text("Enter text here")
+        inentry.set_hexpand(True)
+
+        cmsgs = [
+            "Let's write.",
+            "Ready to create?"
+        ]
+
+        inlabel = Gtk.Label()
+        inlabel.set_markup(f'<span font_size="32768"><i>{random.choice(cmsgs)}</i></span>\n')
+        inlabel.set_wrap(True)
+        inlabel.set_max_width_chars(50)
+        inlabel.set_selectable(True)
+        inlabel.set_hexpand(True)
+        inlabel.set_vexpand(True)
+
+        inscroll = Gtk.ScrolledWindow()
+        inscroll.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.AUTOMATIC)
+        inscroll.set_child(inlabel)
+        inscroll.set_vexpand(True)
+        inscroll.set_hexpand(True)
+
+        inputpanel.append(inscroll)
+        inputpanel.append(inentry)
+
+        paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
+        paned.set_start_child(outputpanel)
+        paned.set_end_child(inputpanel)
+        paned.set_position(500)
+
+        # handle entry activate (pressing Enter)
+        def chandler(entry):
+            text = entry.get_text()
+            if text.strip() == "":
+                return
+            
+            inlabel.set_text(f'{text}')
+
+            prompt_text = f" {text}"
+            if not self.instance:
+                label.set_text("Please load a model first in the Settings tab.")
+                label.add_css_class("error")
+                return
+            
+            label.remove_css_class("error")
+            
+            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt, md=True)
+            stream_buffer = []
+
+            def stream_gen():
+                try:
+                    token = next(gen)
+                    stream_buffer.append(token)
+                    outlabel.set_text("".join(stream_buffer))
+                    return True
+                except StopIteration:
+                    return False
+
+            GLib.idle_add(stream_gen)
+            entry.set_text("")
+            self.file = True
+
+        def download_handler(button):
+            if self.file == True:
+                content = outlabel.get_text()
+                from pathlib import Path
+                locations = Path("~/Documents").expanduser()
+                output_file = locations / "output.md"
+
+                output_file.write_text(content, encoding='utf-8')
+                print(f"DEBUG: SAVED TO {output_file}")
+
+        inentry.connect("activate", chandler)
+        outdownload.connect("clicked", download_handler)
+
+        boxcode.append(paned)
 
         # settings page
         boxset = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10,
@@ -210,7 +331,7 @@ class gui(Gtk.Application):
         mdlbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         mdlbox.set_hexpand(True)
         mdlbox.add_css_class("linked")
-        mdlbox.add_css_class("card")        
+        mdlbox.add_css_class("card")
 
         # model changer
         mdlfile_label = Gtk.Label(label="Change your model")
@@ -270,7 +391,7 @@ class gui(Gtk.Application):
             self.config['settings']['prompt'] = self.prompt
             with open('config.ini', 'w') as f:
                 self.config.write(f)
-        
+
         # delete box
         delbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         delbox.set_hexpand(True)
@@ -319,6 +440,7 @@ class gui(Gtk.Application):
 
         # stack pages
         stack.add_titled(child=boxmain, name="chat", title="Chat")
+        stack.add_titled(child=boxcode, name="code", title="Create")
         stack.add_titled(child=boxset, name="settings", title="Settings")
 
         # stack layout
