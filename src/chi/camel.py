@@ -69,4 +69,4 @@ class CamelBackend:
                 stop=["<|eot_id|>"],
                 grammar=grammar,
             )
-            return response['choices'][0]['text']
+            yield response['choices'][0]['text']
