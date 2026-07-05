@@ -3,7 +3,8 @@ class classify:
         pass
 
     def codeclass(symbol: str):
-        dict = {
+        code_map = {
             "c" : "c",
             "python" : "py",
         }
+        return code_map.get(symbol)
