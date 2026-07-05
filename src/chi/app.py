@@ -4,7 +4,7 @@
 
 import gi
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk, GLib, Gio, Gdk
+from gi.repository import Gtk, GLib, Gio
 import sys
 from camel import CamelBackend as cb
 from configparser import ConfigParser as cfg
