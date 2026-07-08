@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chi-ai"
-version = "0.7.0"
+version = "0.7.1"
 description = "An open-source, local AI chatbot built with GTK4"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -26,6 +26,7 @@ classifiers = [
 dependencies = [
     "llama-cpp-python",
     "psutil",
+    "md2docx-python"
     # pygobject (GTK4 bindings) is intentionally omitted here.
     # pip's pygobject needs system GTK4 headers to compile.
     # Users must install it via their system package manager.

@@ -3,12 +3,16 @@
 # See LICENSE file in the project root for full license text.
 
 import gi
+import psutil
 gi.require_version('Gtk', '4.0')
 from gi.repository import Gtk, GLib, Gio, Gdk
 import sys
 from camel import CamelBackend as cb
 from configparser import ConfigParser as cfg
 import random
+from md4gtk import MarkdownToPango
+import os
+
 
 class gui(Gtk.Application):
     def __init__(self):
@@ -22,6 +26,8 @@ class gui(Gtk.Application):
         self.prompt = None 
         self.instance = None
         self.file = None
+        self.filename = None
+        self.markdowntext = None
 
         # ini parser for model
         self.config = cfg()
@@ -94,7 +100,7 @@ class gui(Gtk.Application):
             "Ask away!",
             "What's on the agenda today?",
             "Fulfill your curiousity!",
-            "Shall we chat or shall we code?"
+            "Shall we chat or shall we write?"
         ]
         label.set_markup(f'<span font_size="32768"><i>{random.choice(msgs)}</i></span>\n')
         label.set_wrap(True)
@@ -144,14 +150,15 @@ class gui(Gtk.Application):
             
             label.remove_css_class("error")
 
-            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt, md=False)
+            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt)
             stream_buffer = []
 
             def stream_gen():
                 try:
                     token = next(gen)
                     stream_buffer.append(token)
-                    label.set_text("".join(stream_buffer))
+                    markup = MarkdownToPango("".join(stream_buffer)).convert()
+                    label.set_markup(markup)                  
                     return True
                 except StopIteration:
                     return False
@@ -181,7 +188,13 @@ class gui(Gtk.Application):
         outdownload = Gtk.Button(label="Download File")
         outdownload.set_hexpand(True)
         outdownload.add_css_class("suggested-action")
+
+        outname = Gtk.Entry()
+        outname.set_placeholder_text("Enter filename here")
+        outname.set_hexpand(True)
+
         outbuttons.append(outdownload)
+        outbuttons.append(outname)
 
         outlabel = Gtk.Label()
         outlabel.set_markup(f'<span font_size="32768"><i>Files will appear here</i></span>\n')
@@ -238,6 +251,7 @@ class gui(Gtk.Application):
 
         # handle entry activate (pressing Enter)
         def chandler(entry):
+            self.markdowntext = None
             text = entry.get_text()
             if text.strip() == "":
                 return
@@ -246,20 +260,24 @@ class gui(Gtk.Application):
 
             prompt_text = f" {text}"
             if not self.instance:
-                label.set_text("Please load a model first in the Settings tab.")
-                label.add_css_class("error")
+                outlabel.set_text("Please load a model first in the Settings tab.")
+                outlabel.add_css_class("error")
                 return
             
-            label.remove_css_class("error")
+            outlabel.remove_css_class("error")
             
-            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt, md=True)
+            gen = self.instance.gentxt(prompt_text, tokens=self.val, temp=self.temp, experimental_streaming=True, custom=self.prompt)
             stream_buffer = []
+            stream_buffer2 = []
 
             def stream_gen():
                 try:
                     token = next(gen)
                     stream_buffer.append(token)
-                    outlabel.set_text("".join(stream_buffer))
+                    stream_buffer2.append(token)
+                    self.markdowntext = "".join(stream_buffer2)
+                    markup = MarkdownToPango("".join(stream_buffer)).convert()
+                    outlabel.set_markup(markup)     
                     return True
                 except StopIteration:
                     return False
@@ -269,14 +287,24 @@ class gui(Gtk.Application):
             self.file = True
 
         def download_handler(button):
+            self.filename = outname.get_text().strip()
+            if not self.filename:
+                outname.set_text("Please enter a filename before downloading.")
+                outname.add_css_class("error")
+                return
             if self.file == True:
-                content = outlabel.get_text()
+                content = self.markdowntext
                 from pathlib import Path
+                from md2docx_python.src.md2docx_python import markdown_to_word
                 locations = Path("~/Documents").expanduser()
-                output_file = locations / "output.md"
+                output_file = locations / f"{self.filename}.md"
 
                 output_file.write_text(content, encoding='utf-8')
-                print(f"DEBUG: SAVED TO {output_file}")
+                print(f"DEBUG: [MD] SAVED TO {output_file}")
+
+                w_output_file = locations / f"{self.filename}.docx"
+                markdown_to_word(str(output_file), str(w_output_file))
+                print(f"DEBUG: [MD2DOCX] SAVED TO {w_output_file}")
 
         inentry.connect("activate", chandler)
         outdownload.connect("clicked", download_handler)
@@ -287,6 +315,18 @@ class gui(Gtk.Application):
         boxset = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10,
                          margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
 
+        # Headings
+        set1head = Gtk.Label()
+        set1head.set_markup('<span font_size="12788"><i>Model Settings</i></span>\n')
+        set1head.set_halign(Gtk.Align.START)
+        set1head.set_hexpand(True)
+
+        resethead = Gtk.Label()
+        resethead.set_markup('\n<span font_size="12788"><i>Reset Settings</i></span>\n')
+        resethead.set_halign(Gtk.Align.START)
+        resethead.set_hexpand(True)
+        resethead.add_css_class("error")
+
         # slider box
         slbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         slbox.set_hexpand(True)
@@ -295,7 +335,7 @@ class gui(Gtk.Application):
 
         # token selection
         tseltext = Gtk.Label(label=f"Generation tokens: {self.val}")
-        tselscale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 1, 2048, 16)
+        tselscale = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 128, (512*(psutil.virtual_memory().total / (1024 ** 3))), 64)
         tselscale.set_value(768)  # default
         tselscale.set_hexpand(True)
         tselscale.set_digits(0)
@@ -410,6 +450,7 @@ class gui(Gtk.Application):
             self.config['settings']['prompt'] = ""
             self.config['settings']['temp'] = "0.2"
             self.config['settings']['tokens'] = "768"
+            self.config['settings']['genf'] = "0"
             with open('config.ini', 'w') as f:
                 self.config.write(f)
             self.instance = None
@@ -419,9 +460,10 @@ class gui(Gtk.Application):
             entryp.set_text("")
             tselscale.set_value(768)
             tempscale.set_value(0.2)
-
+            
         delcfg.connect("clicked", del_handler)
         entryp.connect("activate", custom_handler)
+        boxset.append(set1head)
         slbox.append(tseltext)
         slbox.append(tselscale)
         slbox.append(temptext)
@@ -435,6 +477,7 @@ class gui(Gtk.Application):
         boxset.append(slbox)
         boxset.append(mdlbox)
         boxset.append(pbox)
+        boxset.append(resethead)
         boxset.append(delbox)
         boxset.append(lglext)
 

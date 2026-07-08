@@ -58,9 +58,9 @@ This section describes (and shows how to use) all features in Chi.
 
 Model selection is important, as Chi will require a specificed model to use in order to continue. Once selected, it will be saved in ```config.ini``` and you will not need to redo this process unless you are switching models.
 
-In the settings menu of Chi, click "Open file", located underneath the text that says "Change your model. Upon clicking, a file dialog will appear, allowing you to look through your computer for a model to use. Note that it must be a ```.gguf``` model, optimized for LlaMA 3 style prompts.
+In the settings menu of Chi, click "Open file", located underneath the text that says "Change your model. Upon clicking, a file dialog will appear, allowing you to look through your computer for a model to use. Note that it must be a ```.gguf``` model, specifically with ```instruct``` in its name.
 
-After selecting a model, you will be able to use Chi in the "Chat" menu.
+After selecting a model, you will be able to use Chi in the "Chat" and "Create" menus.
 
 ## Generation parameters
 
@@ -80,6 +80,10 @@ In the chat section of Chi, you may notice three buttons. These buttons append a
 ## Personality customization
 
 In the settings section of Chi, there is an entry box to change the personality. You can write instructions and press enter to save them and apply them to the model. Your customizations are saved in ```config.ini``` so there is no worry regarding loss of settings.
+
+## Document writing
+
+In the "Create" section of Chi, there is a document writing function. On the right is where your prompt is inputted, and the left shows the output! On the top left, you can type in your desired filename and download to a ```.docx``` file!
 
 # Want to contribute?
 
